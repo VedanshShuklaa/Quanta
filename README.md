@@ -1,57 +1,63 @@
 # Quanta
 
-**Quanta** is a small on-chain project built on **Solana**.  
-It’s made up of different programs that work together — starting with a token mint and a staking vault.
-
-Right now, there are two working parts:
-- **QuantaMint** → creates and manages the `$QNT` token  
-- **QuantaVault** → lets users lock (stake) their QNT for some time
+**Quanta** is a modular Solana project made up of multiple programs that work together — starting with **Quanta Mint** (for token creation) and **Quanta Vault** (for time-locked staking).  
+Each module lives in its own repository and is linked here for clarity.
 
 ---
 
-## QuantaMint
-The **mint program** for the `$QNT` token.  
-It handles creating new tokens and defines who can mint more.  
-This is the base for everything else in Quanta.
+## Quanta Mint
+**Quanta Mint** handles minting and managing the QNT token on Solana.
 
-**What it does:**
-- Creates the `$QNT` token
-- Sets the mint authority
-- Keeps track of total supply
-
----
-
-## QuantaVault
-The **vault program** lets users stake their `$QNT` tokens for a set amount of time.  
-After that time passes, they can withdraw them again.
-
-**How it works:**
-- You deposit your `$QNT` into the vault
-- Tokens stay locked for a chosen time period
-- Once the lock ends, you can take your tokens back (and maybe rewards later)
-
----
-
-## Upcoming Features
-| Program | Description | Status |
-|----------|--------------|--------|
-| QuantaMint | Creates the QNT token | ✅ Done |
-| QuantaVault | Time-locked staking | ⚙️ Working |
-| QuantaEscrow | Token escrow with unlock conditions | 🔜 Coming soon |
-
----
-
-## How to Run It
-### Prerequisites
-Make sure you have these installed:
-- Solana CLI  
-- Anchor Framework  
-- Yarn / Node.js
-
-### Steps
+### Quick Run
 ```bash
-git clone git@github.com:VedanshShuklaa/Quanta.git
-cd Quanta
-anchor build
-anchor deploy
+# install
+npm install
+
+# run the mint script (from project root)
+npx ts-node --esm mint.ts
 ```
+
+---
+
+## Quanta Vault
+**Quanta Vault** is a time-locked staking vault built for QNT tokens.  
+Users can stake their tokens for a chosen duration to earn rewards after maturity.
+
+### Quick setup & run (devnet)
+```bash
+# set Solana config to devnet
+solana config set --url devnet
+
+# build (if you changed the program)
+anchor build
+
+# (if redeploying) deploy program
+anchor deploy
+
+# initialize or stake (demo)
+yarn ts-node app/execute_vault.ts
+
+# fund the vault rewards pool (admin)
+yarn ts-node app/fund_vault.ts
+
+# check vault state / stake status
+yarn ts-node app/check_vault_status.ts
+
+# claim (after maturity)
+yarn ts-node app/claim_rewards.ts
+```
+
+---
+
+## How They Work Together
+1. **Quanta Mint** creates and manages the **QNT** token — this is your core SPL token.
+2. **Quanta Vault** uses the QNT mint address to lock user tokens for staking and rewards.
+3. Together, they form the foundation of the Quanta ecosystem — secure minting, fair staking, and future extensibility.
+
+---
+
+## Coming Soon
+- **Quanta Escrow:** Time-based QNT transfers (e.g., vesting or delayed payments)
+- **Quanta Dashboard:** Simple UI to track stakes and rewards
+
+---
