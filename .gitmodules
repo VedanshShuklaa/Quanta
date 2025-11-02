@@ -1,0 +1,6 @@
+[submodule "quanta-mint"]
+	path = quanta-mint
+	url = https://github.com/VedanshShuklaa/QuantaMint.git
+[submodule "quanta-vault"]
+	path = quanta-vault
+	url = https://github.com/VedanshShuklaa/quanta-vault
